@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ataraxie Ophtalmologie — QCMs, Grilles Officielles &amp; Justifications V6</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Header -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button id="btnSidebarToggle" class="icon-btn mobile-only" aria-label="Ouvrir le menu" title="Menu">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 28 28" width="22" height="22" fill="none">
+              <path d="M2.5 14C5.4 8.6 9.3 6 14 6s8.6 2.6 11.5 8c-2.9 5.4-6.8 8-11.5 8s-8.6-2.6-11.5-8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <circle cx="14" cy="14" r="4.2" stroke="currentColor" stroke-width="2"/>
+              <circle cx="14" cy="14" r="1.6" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">Ataraxie Ophtalmologie</span>
+            <span class="brand-sub">CPC 2027 · Tapé 2016–2026 · Support V6</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Primary Mode Switcher -->
+      <nav class="mode-switch" role="tablist" aria-label="Mode de révision">
+        <button id="tabCpc" class="mode-tab active" role="tab" aria-selected="true" data-mode="cpc">
+          <span class="tab-label">CPC · Cours par cours</span>
+          <span class="tab-count" id="countCpc">—</span>
+        </button>
+        <button id="tabTape" class="mode-tab" role="tab" aria-selected="false" data-mode="tape">
+          <span class="tab-label">Tapé · Examens</span>
+          <span class="tab-count" id="countTape">—</span>
+        </button>
+      </nav>
+
+      <div class="topbar-right">
+        <button id="btnOpenCours" class="btn btn-subtle" title="Consulter le support de cours Ophtalmologie V6">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span>Cours V6</span>
+        </button>
+        <button id="btnTheme" class="icon-btn" title="Changer de thème (clair/sombre)" aria-label="Changer de thème">
+          <svg id="iconSun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
+          <svg id="iconMoon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="workspace">
+      <!-- Sidebar Backdrop (mobile) -->
+      <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
+      <!-- Left Sidebar -->
+      <aside id="sidebar" class="sidebar" aria-label="Navigation chapitres et examens">
+        <div class="sidebar-stats" id="sidebarStats">
+          <div class="stat-row">
+            <span class="stat-label">Progression globale</span>
+            <span class="stat-value" id="globalProgressText">0 / 0</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="globalProgressBar" style="width: 0%"></div>
+          </div>
+          <div class="stat-mini-grid">
+            <div class="stat-mini">
+              <span class="stat-mini-val" id="globalStrictScore">—</span>
+              <span class="stat-mini-lbl">Barème strict</span>
+            </div>
+            <div class="stat-mini">
+              <span class="stat-mini-val" id="globalPropAccuracy">—</span>
+              <span class="stat-mini-lbl">Items justes</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-search">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="searchInput" type="search" placeholder="Rechercher un QCM, mot-clé..." autocomplete="off" />
+        </div>
+
+        <div class="sidebar-filters" id="sidebarFilters">
+          <button class="filter-chip active" data-filter="all">Tout</button>
+          <button class="filter-chip" data-filter="grid" title="Questions corrigées par grille officielle">Grille off.</button>
+          <button class="filter-chip" data-filter="unanswered">À faire</button>
+          <button class="filter-chip" data-filter="wrong">Erreurs</button>
+          <button class="filter-chip" data-filter="bookmarked">Favoris</button>
+        </div>
+
+        <div class="sidebar-list-header">
+          <span id="sidebarListTitle">Chapitres CPC</span>
+          <button id="btnSelectAll" class="link-btn">Tout afficher</button>
+        </div>
+
+        <div id="sidebarList" class="sidebar-list"></div>
+
+        <div class="sidebar-footer">
+          <button id="btnResetProgress" class="btn-text-danger">Réinitialiser ma progression</button>
+        </div>
+      </aside>
+
+      <!-- Main Content Stage -->
+      <main class="main-stage">
+        <!-- Context Banner / Controls Bar -->
+        <section class="stage-header" id="stageHeader">
+          <div class="stage-title-group">
+            <div class="stage-kicker" id="stageKicker">COURS PAR COURS</div>
+            <h1 class="stage-title" id="stageTitle">Chargement...</h1>
+            <p class="stage-meta" id="stageMeta"></p>
+          </div>
+          <div class="stage-actions">
+            <button id="btnViewExamGrid" class="btn btn-outline-accent" style="display:none">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+              <span>Voir grille officielle</span>
+            </button>
+            <div class="study-mode-pills" title="Mode d'affichage">
+              <button id="btnViewFocus" class="pill-btn active" data-view="focus">1 par 1</button>
+              <button id="btnViewList" class="pill-btn" data-view="list">Liste</button>
+            </div>
+            <button id="btnExamSim" class="btn btn-subtle" title="Activer le mode Examen blanc (correction en fin de session)">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/></svg>
+              <span id="btnExamSimLabel">Mode Examen</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Exam Simulation Bar (shown only when active) -->
+        <section id="examSimBar" class="exam-sim-bar" style="display:none">
+          <div class="exam-sim-info">
+            <span class="sim-dot"></span>
+            <strong>Mode Examen (Barème strict)</strong>
+            <span id="examSimProgress">0 / 0 répondues</span>
+            <span class="sim-timer" id="examSimTimer">00:00</span>
+          </div>
+          <div class="exam-sim-actions">
+            <button id="btnFinishExam" class="btn btn-primary">Corriger l'examen</button>
+            <button id="btnCancelExam" class="btn btn-subtle">Quitter</button>
+          </div>
+        </section>
+
+        <!-- Quick Question Number Strip (Focus Mode) -->
+        <section id="questionNavStrip" class="q-nav-strip" aria-label="Navigation rapide des questions"></section>
+
+        <!-- Questions Container -->
+        <section id="questionsContainer" class="questions-container"></section>
+
+        <!-- Bottom Pagination Bar (Focus Mode) -->
+        <footer id="focusFooter" class="focus-footer">
+          <button id="btnPrevQ" class="btn btn-subtle">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <span>Précédente</span>
+          </button>
+          <div class="focus-counter" id="focusCounter">1 / 1</div>
+          <button id="btnNextQ" class="btn btn-primary">
+            <span>Suivante</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal: Official Correction Grid Image Viewer -->
+  <div id="gridModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="gridModalTitle">
+    <div class="modal-backdrop" data-close-modal="gridModal"></div>
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <div>
+          <h2 id="gridModalTitle" class="modal-title">Grille de correction officielle</h2>
+          <p id="gridModalSub" class="modal-sub"></p>
+        </div>
+        <button class="icon-btn" data-close-modal="gridModal" aria-label="Fermer">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body grid-modal-body">
+        <div id="gridModalNote" class="grid-modal-note" style="display:none"></div>
+        <div class="grid-img-wrap">
+          <img id="gridModalImg" src="" alt="Grille officielle scannée" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide-Over Drawer: Ophtalmologie V6 Course Support Reader -->
+  <div id="coursDrawer" class="drawer" aria-hidden="true" role="dialog" aria-labelledby="coursDrawerTitle">
+    <div class="drawer-backdrop" data-close-drawer="coursDrawer"></div>
+    <div class="drawer-panel">
+      <div class="drawer-header">
+        <div>
+          <h2 id="coursDrawerTitle" class="drawer-title">Support de cours — Ophtalmologie V6</h2>
+          <p class="drawer-sub">17 chapitres · 135 pages · Recherche instantanée</p>
+        </div>
+        <button class="icon-btn" data-close-drawer="coursDrawer" aria-label="Fermer">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="drawer-controls">
+        <select id="coursChapterSelect" class="select-input" aria-label="Choisir un chapitre"></select>
+        <input id="coursSearchInput" type="search" class="text-input" placeholder="Chercher dans le cours V6..." />
+      </div>
+      <div id="coursReaderBody" class="drawer-body"></div>
+    </div>
+  </div>
+
+  <!-- Data Bundles (100% offline-compatible with file://) -->
+  <script src="cours-v6.js"></script>
+  <script src="qcm-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
